@@ -1,4 +1,5 @@
 package sample;
+
 public class Account {
 
     private String iban;
@@ -45,6 +46,22 @@ public class Account {
         }
     }
 
+    public void withdraw(double sum, String currency, Customer customer) {
+        if (!getCurrency().equals(currency)) {
+            throw new RuntimeException("Can't extract withdraw " + currency);
+        }
+        overdraft(sum, getType().isPremium(), customer.getCustomerType(), customer);
+    }
+
+    void overdraft(double sum, boolean discount, CustomerType ct, Customer customer) {
+        double discountDivider = (discount) ? 2 : 1;
+        double companyFactor = (ct == CustomerType.COMPANY) ? customer.getCompanyOverdraftDiscount() / discountDivider : 1;
+        if (getMoney() < 0) {
+            setMoney((getMoney() - sum) - sum * overdraftFee() * companyFactor);
+        } else {
+            setMoney(getMoney() - sum);
+        }
+    }
 
     public int getDaysOverdrawn() {
         return daysOverdrawn;
@@ -88,5 +105,10 @@ public class Account {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    @Override
+    public String toString() {
+        return "Account: IBAN: " + iban + ", Money: " + getMoney() + ", Account type: " + getType();
     }
 }

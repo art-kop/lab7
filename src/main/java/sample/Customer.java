@@ -6,7 +6,7 @@ public abstract class Customer {
     private String surname;
     private String email;
     private CustomerType customerType;
-    private Account account;
+    public Account account;
     private double companyOverdraftDiscount = 1;
 
     public Customer(String name, String surname, String email, CustomerType customerType, Account account) {
@@ -24,23 +24,6 @@ public abstract class Customer {
         this.customerType = CustomerType.COMPANY;
         this.account = account;
         this.companyOverdraftDiscount = companyOverdraftDiscount;
-    }
-
-    public void withdraw(double sum, String currency) {
-        if (!account.getCurrency().equals(currency)) {
-            throw new RuntimeException("Can't extract withdraw " + currency);
-        }
-        overdraft(sum, account.getType().isPremium(), customerType);
-    }
-
-    private void overdraft(double sum, boolean discount, CustomerType ct) {
-        double discountDivider = (discount) ? 2 : 1;
-        double companyFactor = (ct == CustomerType.COMPANY) ? companyOverdraftDiscount / discountDivider : 1;
-        if (account.getMoney() < 0) {
-            account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee() * companyFactor);
-        } else {
-            account.setMoney(account.getMoney() - sum);
-        }
     }
 
     public String getName() {
@@ -86,7 +69,10 @@ public abstract class Customer {
     }
 
     public String printCustomerAccount() {
-        return "Account: IBAN: " + account.getIban() + ", Money: "
-                + account.getMoney() + ", Account type: " + account.getType();
+        return account.toString();
+    }
+
+    public double getCompanyOverdraftDiscount() {
+        return companyOverdraftDiscount;
     }
 }
