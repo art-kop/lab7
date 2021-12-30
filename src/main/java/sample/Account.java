@@ -1,14 +1,12 @@
 package sample;
 
-public class Account {
+public class Account extends AccountMoney {
 
     private String iban;
 
     private AccountType type;
 
     private int daysOverdrawn;
-
-    private double money;
 
     private String currency;
 
@@ -73,14 +71,6 @@ public class Account {
 
     public void setIban(String iban) {
         this.iban = iban;
-    }
-
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    public double getMoney() {
-        return money;
     }
 
     public Customer getCustomer() {
