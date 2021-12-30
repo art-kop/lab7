@@ -50,13 +50,6 @@ public abstract class Customer {
         this.customerType = customerType;
     }
 
-    public String printCustomerDaysOverdrawn() {
-        String fullName = getFullName();
-
-        String accountDescription = "Account: IBAN: " + account.getIban() + ", Days Overdrawn: " + account.getDaysOverdrawn();
-        return fullName + accountDescription;
-    }
-
     public String printCustomerMoney() {
         String fullName = getFullName();
         String accountDescription = "";
@@ -64,7 +57,7 @@ public abstract class Customer {
         return fullName + accountDescription;
     }
 
-    private String getFullName() {
+    public String getFullName() {
         return name + " " + surname + " ";
     }
 
@@ -74,5 +67,9 @@ public abstract class Customer {
 
     public double getCompanyOverdraftDiscount() {
         return companyOverdraftDiscount;
+    }
+
+    public String printCustomer(Account account) {
+        return getName() + " " + getEmail();
     }
 }
