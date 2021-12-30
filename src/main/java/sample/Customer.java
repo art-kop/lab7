@@ -30,14 +30,12 @@ public abstract class Customer {
         if (!account.getCurrency().equals(currency)) {
             throw new RuntimeException("Can't extract withdraw " + currency);
         }
-        pay(sum, account.getType().isPremium(), (customerType == customerType.COMPANY));
-
+        overdraft(sum, account.getType().isPremium(), customerType);
     }
 
-    private void pay(double sum, boolean discount, boolean isCompany) {
-        // 50 percent discount for overdraft for premium account
+    private void overdraft(double sum, boolean discount, CustomerType ct) {
         double discountDivider = (discount) ? 2 : 1;
-        double companyFactor = (isCompany) ? companyOverdraftDiscount / discountDivider : 1;
+        double companyFactor = (ct == CustomerType.COMPANY) ? companyOverdraftDiscount / discountDivider : 1;
         if (account.getMoney() < 0) {
             account.setMoney((account.getMoney() - sum) - sum * account.overdraftFee() * companyFactor);
         } else {
