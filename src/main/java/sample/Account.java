@@ -8,8 +8,6 @@ public class Account extends AccountMoney {
 
     private int daysOverdrawn;
 
-    private String currency;
-
     public Customer customer;
 
     public Account(AccountType type, int daysOverdrawn) {
@@ -83,14 +81,6 @@ public class Account extends AccountMoney {
 
     public AccountType getType() {
         return type;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     @Override
